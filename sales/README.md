@@ -14,6 +14,12 @@ Ten katalog to cały „dział sprzedaży” VolleoPro. Jest tak zaprojektowany,
 | `materialy/obiekcje.md` | Tabela obiekcji i odpowiedzi. |
 | `materialy/one-pager.md` | Podsumowanie do wysłania po demo. |
 
+## Stan bazy leadów (29.09.2026)
+
+105 organizacji, 82 z publicznym adresem e-mail: PlusLiga 14, Tauron Liga 12, 1 Liga 26, 2 Liga 32, akademie i SMS 6, związki 15.
+Dane zebrano z wyników wyszukiwania (środowisko nie pozwalało pobierać stron klubów), dlatego **przed pierwszą wysyłką do klubu zweryfikuj adres i nazwisko na stronie w kolumnie `zrodlo`**. Sztaby zmieniają się latem; część nazwisk dotyczy sezonu 2025/26.
+Brakujące: kilkanaście klubów 2 Ligi (m.in. Olimpia Sulęcin, Volley Radomsko, KPS Września, Poprad Stary Sącz, MKS Myszków), WZPS lubuski, opolski, warmińsko-mazurski, podlaski. Do uzupełnienia w rutynie.
+
 ## Etapy w pipeline.csv
 
 `nowy` → `mail1` → `mail2` → `mail3` → `mail4` → `uspiony` (wraca za 90 dni)
