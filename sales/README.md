@@ -22,7 +22,7 @@ Brakujące: kilkanaście klubów 2 Ligi (m.in. Olimpia Sulęcin, Volley Radomsko
 
 ## Etapy w pipeline.csv
 
-`nowy` → `mail1` → `mail2` → `mail3` → `mail4` → `uspiony` (wraca za 90 dni)
+`nowy` → `mail1_szkic` (wersja robocza czeka w Gmailu) → `mail1` → `mail2` → `mail3` → `mail4` → `uspiony` (wraca za 90 dni)
 lub z dowolnego etapu → `odpowiedz` → `demo_umowione` → `demo_odbyte` → `pilotaz` → `klient` / `stracony`
 
 ## Cotygodniowy cykl (rutyna Claude, poniedziałek rano)
