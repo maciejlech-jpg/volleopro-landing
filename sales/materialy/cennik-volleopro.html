@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<title>Cennik VolleoPro</title>
+<style>
+  @page { size: A4; margin: 0; }
+  :root{ --navy:#0f1b33; --navy2:#1c2d52; --gold:#c9962e; --gold2:#e8b34e; --ink:#1a1f2b; --muted:#5b6475; --line:#e3e6ec; --bg:#f6f4ef; }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; color:var(--ink); font-family:"Liberation Sans","DejaVu Sans",Arial,sans-serif; font-size:10.5pt; line-height:1.45; background:#fff; }
+  h1,h2,h3{ font-family:"DejaVu Serif",Georgia,serif; color:var(--navy); margin:0; letter-spacing:-.01em; }
+  .page{ width:210mm; height:297mm; padding:16mm 16mm 14mm; page-break-after:always; position:relative; }
+  .page:last-child{ page-break-after:auto; }
+  .head{ display:flex; justify-content:space-between; align-items:flex-end; border-bottom:2px solid var(--navy); padding-bottom:8px; margin-bottom:18px; }
+  .brand{ font-family:"DejaVu Serif",Georgia,serif; font-weight:700; font-size:20pt; color:var(--navy); display:flex; align-items:center; gap:8px; }
+  .brand .dot{ width:10px; height:10px; border-radius:50%; background:linear-gradient(135deg,var(--gold2),var(--gold)); display:inline-block; }
+  .meta{ text-align:right; font-size:8.5pt; color:var(--muted); }
+  .tag{ display:inline-block; background:#fdf3dd; color:#8a6412; font-weight:700; font-size:8pt; letter-spacing:.08em; text-transform:uppercase; padding:3px 8px; border-radius:4px; }
+  h1{ font-size:22pt; margin:10px 0 6px; }
+  .lead{ color:var(--muted); margin:0 0 16px; max-width:150mm; }
+  .cards{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:14px; }
+  .card{ border:1px solid var(--line); border-radius:10px; padding:14px 14px 12px; background:#fff; }
+  .card.hi{ border-color:var(--gold); background:linear-gradient(180deg,#fffaf0,#fff); box-shadow:0 6px 18px rgba(15,27,51,.08); }
+  .card h3{ font-size:14pt; margin-bottom:2px; }
+  .card .for{ color:var(--muted); font-size:8.5pt; min-height:30px; margin-bottom:8px; }
+  .price{ font-family:"DejaVu Serif",Georgia,serif; font-size:21pt; color:var(--navy); font-weight:700; line-height:1; }
+  .price small{ display:block; font-family:"Liberation Sans",Arial,sans-serif; font-size:8.5pt; color:var(--muted); font-weight:400; margin-top:4px; }
+  .alt{ font-size:8.5pt; color:var(--muted); margin:4px 0 10px; }
+  .card ul{ margin:0; padding-left:14px; font-size:9pt; }
+  .card li{ margin:2px 0; }
+  .row{ display:flex; gap:12px; align-items:stretch; margin-bottom:14px; }
+  .box{ flex:1; border:1px solid var(--line); border-radius:10px; padding:12px 14px; background:var(--bg); }
+  .box h3{ font-size:11pt; margin-bottom:6px; }
+  .box ul{ margin:0; padding-left:14px; font-size:9.2pt; }
+  .box li{ margin:2px 0; }
+  table{ width:100%; border-collapse:collapse; font-size:9.5pt; }
+  th{ text-align:left; background:var(--navy); color:#fff; padding:7px 9px; font-weight:600; font-size:9pt; }
+  td{ padding:6px 9px; border-bottom:1px solid var(--line); vertical-align:top; }
+  td.num, th.num{ text-align:right; white-space:nowrap; }
+  tr.total td{ font-weight:700; background:#fdf3dd; border-bottom:0; }
+  .note{ font-size:8.5pt; color:var(--muted); margin-top:6px; }
+  .foot{ position:absolute; left:16mm; right:16mm; bottom:10mm; border-top:1px solid var(--line); padding-top:6px; font-size:8pt; color:var(--muted); display:flex; justify-content:space-between; }
+  h2{ font-size:15pt; margin:0 0 10px; }
+  .kpis{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:14px; }
+  .kpi{ border:1px solid var(--line); border-radius:10px; padding:10px 12px; }
+  .kpi .v{ font-family:"DejaVu Serif",Georgia,serif; font-size:17pt; font-weight:700; color:var(--navy); }
+  .kpi .l{ font-size:8.5pt; color:var(--muted); }
+  .decide{ border-left:4px solid var(--gold); background:#fffaf0; padding:10px 14px; border-radius:0 8px 8px 0; margin-top:12px; }
+  .decide h3{ font-size:11pt; margin-bottom:4px; }
+  .decide ol{ margin:0; padding-left:18px; font-size:9.5pt; }
+  .decide li{ margin:3px 0; }
+</style>
+</head>
+<body>
+
+<section class="page">
+  <div class="head">
+    <div class="brand"><span class="dot"></span>VolleoPro</div>
+    <div class="meta">Lech Company Sp. z o.o.<br>maciejlech@lechcompany.com · tel. 660 844 959 · www.volleopro.pl</div>
+  </div>
+
+  <span class="tag">Propozycja do zatwierdzenia · 2 października 2026</span>
+  <h1>Cennik VolleoPro</h1>
+  <p class="lead">Elektroniczna kartoteka medyczna i monitoring gotowości treningowej dla klubów siatkarskich. Abonament miesięczny per klub. Ceny netto. Umowa roczna rozliczana z góry daje 2 miesiące gratis i zwalnia z opłaty wdrożeniowej.</p>
+
+  <div class="cards">
+    <div class="card">
+      <h3>Akademia</h3>
+      <div class="for">Szkółki, SMS, kluby młodzieżowe, 2 Liga</div>
+      <div class="price">349 zł <small>/ mies. przy umowie rocznej</small></div>
+      <div class="alt">419 zł / mies. przy rozliczeniu miesięcznym</div>
+      <ul>
+        <li>do 40 zawodników</li>
+        <li>1 drużyna</li>
+        <li>kartoteka medyczna, Wellness + IGT, RPE</li>
+        <li>panel zespołu, role i uprawnienia</li>
+        <li>umowa powierzenia danych</li>
+        <li>wsparcie mailowe</li>
+      </ul>
+    </div>
+    <div class="card hi">
+      <h3>Klub</h3>
+      <div class="for">1 Liga, ambitne kluby 2 Ligi, akademie przy klubach zawodowych</div>
+      <div class="price">649 zł <small>/ mies. przy umowie rocznej</small></div>
+      <div class="alt">779 zł / mies. przy rozliczeniu miesięcznym</div>
+      <ul>
+        <li>do 100 zawodników</li>
+        <li>wiele drużyn i grup wiekowych</li>
+        <li>wszystko z pakietu Akademia</li>
+        <li>onboarding sztabu online</li>
+        <li>eksport danych na żądanie</li>
+        <li>wsparcie mailowe i telefoniczne</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Pro</h3>
+      <div class="for">PlusLiga, Tauron Liga, kluby wielosekcyjne</div>
+      <div class="price">1 190 zł <small>/ mies. przy umowie rocznej</small></div>
+      <div class="alt">1 390 zł / mies. przy rozliczeniu miesięcznym</div>
+      <ul>
+        <li>bez limitu zawodników</li>
+        <li>wiele drużyn, pierwszy zespół + rezerwy + młodzież</li>
+        <li>wszystko z pakietu Klub</li>
+        <li>SLA: reakcja w 1 dzień roboczy</li>
+        <li>konsultacja konfiguracji alertów</li>
+        <li>dedykowany opiekun wdrożenia</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="box">
+      <h3>Związek / program centralny (SOS, WZPS, reprezentacje)</h3>
+      <ul>
+        <li>Wycena indywidualna, od 2 500 zł / mies.</li>
+        <li>Wiele klubów lub ośrodków pod jednym kontem nadzorczym</li>
+        <li>Raporty zbiorcze dla koordynatorów programu</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3>Opłaty jednorazowe i zasady</h3>
+      <ul>
+        <li>Opłata wdrożeniowa 990 zł netto, <b>zwolniona przy umowie rocznej</b></li>
+        <li>Pilotaż 30 dni z pierwszym zespołem: bezpłatny, bez zobowiązań</li>
+        <li>Faktura VAT, płatność przelewem 14 dni</li>
+        <li>Dane są własnością klubu, pełny eksport w każdej chwili</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box" style="background:#fff">
+    <h3>W każdym pakiecie</h3>
+    <ul style="columns:2; column-gap:24px">
+      <li>Kartoteka medyczna: urazy, operacje, choroby przewlekłe, alergie, leki, suplementy</li>
+      <li>Badania funkcjonalne, dokumentacja i notatki sztabu w jednym wątku</li>
+      <li>Ankieta Wellness z telefonu, bez instalacji aplikacji</li>
+      <li>Indeks Gotowości Treningowej i status zielony / żółty / pomarańczowy / czerwony</li>
+      <li>RPE po każdej jednostce treningowej</li>
+      <li>Panel zespołu w czasie rzeczywistym: strefa ryzyka, kto nie wypełnił ankiety</li>
+      <li>Role: administrator, sztab medyczny, trener, zawodnik; osobne uprawnienia dla nieletnich</li>
+      <li>Serwery w UE, szyfrowanie, umowa powierzenia danych w pakiecie</li>
+    </ul>
+  </div>
+
+  <div class="foot"><span>VolleoPro · Cennik · strona 1 z 2</span><span>Wersja robocza do zatwierdzenia przez właściciela. Nie przekazywać klubom przed akceptacją.</span></div>
+</section>
+
+<section class="page">
+  <div class="head">
+    <div class="brand"><span class="dot"></span>VolleoPro</div>
+    <div class="meta">Materiał wewnętrzny · nie dla klubów</div>
+  </div>
+
+  <h2>Droga do 30 000 zł miesięcznie</h2>
+
+  <div class="kpis">
+    <div class="kpi"><div class="v">52</div><div class="l">płacących klubów potrzebnych do celu</div></div>
+    <div class="kpi"><div class="v">26</div><div class="l">klubów PlusLigi i Tauron Ligi w Polsce</div></div>
+    <div class="kpi"><div class="v">~60</div><div class="l">klubów 1 Ligi i czołówki 2 Ligi</div></div>
+    <div class="kpi"><div class="v">200+</div><div class="l">akademii, SMS i szkółek z budżetem</div></div>
+  </div>
+
+  <table>
+    <thead><tr><th>Segment</th><th>Pakiet</th><th class="num">Cena / mies.</th><th class="num">Klientów</th><th class="num">MRR</th></tr></thead>
+    <tbody>
+      <tr><td>PlusLiga + Tauron Liga (26 klubów)</td><td>Pro</td><td class="num">1 190 zł</td><td class="num">8</td><td class="num">9 520 zł</td></tr>
+      <tr><td>1 Liga M i K, top 2 Ligi (ok. 60 klubów)</td><td>Klub</td><td class="num">649 zł</td><td class="num">18</td><td class="num">11 682 zł</td></tr>
+      <tr><td>2 Liga, SMS, akademie, szkółki (200+)</td><td>Akademia</td><td class="num">349 zł</td><td class="num">26</td><td class="num">9 074 zł</td></tr>
+      <tr class="total"><td colspan="3">Razem</td><td class="num">52</td><td class="num">30 276 zł</td></tr>
+    </tbody>
+  </table>
+  <p class="note">MRR = miesięczny przychód z abonamentów. Penetracja rynku potrzebna do celu: ok. 31% w PlusLidze i Tauron Lidze, 30% w 1 Lidze, 13% w segmencie Akademia.</p>
+
+  <h2 style="margin-top:18px">Realistyczny harmonogram</h2>
+  <table>
+    <thead><tr><th>Kwartał</th><th>Co się dzieje</th><th class="num">Demo</th><th class="num">Nowi klienci</th><th class="num">MRR na koniec</th></tr></thead>
+    <tbody>
+      <tr><td>Q4 2026</td><td>Start outreachu, pierwsze pilotaże, case study Necko Augustów</td><td class="num">20</td><td class="num">5</td><td class="num">2 800 zł</td></tr>
+      <tr><td>Q1 2027</td><td>Follow-upy, pierwsze umowy roczne, referencje</td><td class="num">30</td><td class="num">8</td><td class="num">7 300 zł</td></tr>
+      <tr><td>Q2 2027</td><td>Okres przygotowawczy: najlepszy moment na wdrożenia</td><td class="num">40</td><td class="num">12</td><td class="num">14 000 zł</td></tr>
+      <tr><td>Q3 2027</td><td>Nowy sezon, kluby wchodzą z danymi od pierwszego dnia</td><td class="num">35</td><td class="num">10</td><td class="num">20 000 zł</td></tr>
+      <tr><td>Q4 2027</td><td>Odnowienia pierwszych umów rocznych, związki i programy centralne</td><td class="num">35</td><td class="num">10</td><td class="num">26 000 zł</td></tr>
+      <tr class="total"><td>Q1 2028</td><td>Cel osiągnięty</td><td class="num">30</td><td class="num">8</td><td class="num">30 000 zł+</td></tr>
+    </tbody>
+  </table>
+  <p class="note">Założenia: 30–40 nowych kontaktów tygodniowo, konwersja z demo do umowy 25%, churn poniżej 3% miesięcznie dzięki umowom rocznym. Udział właściciela: 20-minutowe demo i podpis umowy, pozostałe procesy zautomatyzowane.</p>
+
+  <div class="decide">
+    <h3>Do decyzji właściciela przed pierwszą ofertą</h3>
+    <ol>
+      <li><b>Wysokość cen.</b> Powyższe to punkt wyjścia; w B2B sportowym w Polsce da się ich bronić. Alternatywa: niższy pakiet Akademia (249 zł) dla szybszego wejścia w szkółki.</li>
+      <li><b>Rozliczenie.</b> Rekomendacja: faktura VAT i przelew dla klubów, płatność kartą (Stripe) tylko dla pakietu Akademia.</li>
+      <li><b>Umowa abonamentowa i umowa powierzenia danych.</b> Dane medyczne to szczególna kategoria RODO, wzór musi przejść przez prawnika.</li>
+      <li><b>Bezpłatny pilotaż 30 dni.</b> Zostawić jako standard czy tylko dla PlusLigi i Tauron Ligi?</li>
+    </ol>
+  </div>
+
+  <div class="foot"><span>VolleoPro · Cennik · strona 2 z 2</span><span>Lech Company Sp. z o.o. · 2026</span></div>
+</section>
+
+</body>
+</html>
