@@ -1,0 +1,580 @@
+<title>GastroLech</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="GastroLech – ekosystem do zarządzania gastronomią: strona, zamówienia Burczy, POS Bonik, rezerwacje, płatności, aplikacje dla kierowców i pracowników.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: kolumna 1080px, sekcje = strony oferty; akcenty w stylistyce bonu kuchennego i paragonu termicznego */
+:root{
+  --bg:#F3F4EF;          /* jasny, lekko oliwkowy */
+  --surface:#FFFFFF;
+  --paper:#FBFAF5;       /* papier termiczny */
+  --ink:#15171C;
+  --muted:#5D6158;
+  --line:#D9DBD2;
+  --accent:#E8B21E;      /* żółty bonowy */
+  --accent-ink:#15171C;
+  --basil:#2E6A4C;       /* bazylia */
+  --chili:#C2412D;
+  --band:#15171C;        /* ciemne pasy */
+  --band-fg:#F3F4EF;
+  --f-display:"Unbounded","Arial Black",system-ui,sans-serif;
+  --f-body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
+  --r:6px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#111317;--surface:#1A1D22;--paper:#20232A;--ink:#ECEDE7;--muted:#A3A79C;--line:#2E3239;
+  --accent:#F0BE2E;--accent-ink:#15171C;--basil:#5FB98A;--chili:#F07A62;--band:#0B0C0F;--band-fg:#ECEDE7;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111317;--surface:#1A1D22;--paper:#20232A;--ink:#ECEDE7;--muted:#A3A79C;--line:#2E3239;
+  --accent:#F0BE2E;--accent-ink:#15171C;--basil:#5FB98A;--chili:#F07A62;--band:#0B0C0F;--band-fg:#ECEDE7;color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-display);line-height:1.12;text-wrap:balance;margin:0}
+h2{font-size:clamp(1.6rem,3.4vw,2.4rem);font-weight:700;letter-spacing:-.01em}
+h3{font-size:1.05rem;font-weight:700}
+p{margin:0}
+.eyebrow{font-family:var(--f-mono);font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.lead{font-size:1.125rem;color:var(--muted);max-width:62ch}
+section{padding-block:72px}
+.sec-head{display:grid;gap:12px;margin-bottom:36px}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* ---------- okładka ---------- */
+.cover{background:var(--band);color:var(--band-fg);padding-block:56px 64px;position:relative;overflow:hidden}
+.cover .top{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:var(--f-mono);font-size:.8rem;opacity:.8}
+.cover h1{font-size:clamp(2.8rem,9vw,6.4rem);font-weight:800;letter-spacing:-.03em;margin-top:56px}
+.cover h1 span{color:var(--accent)}
+.cover .tagline{font-family:var(--f-display);font-weight:500;font-size:clamp(1.1rem,2.6vw,1.6rem);margin-top:14px;max-width:24ch}
+.cover .sub{margin-top:22px;max-width:60ch;color:color-mix(in srgb,var(--band-fg) 72%,transparent)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:36px}
+.chip{font-family:var(--f-mono);font-size:.78rem;padding:6px 10px;border:1px solid color-mix(in srgb,var(--band-fg) 28%,transparent);border-radius:999px}
+.chip b{color:var(--accent);font-weight:600}
+.cover-ticket{position:absolute;right:max(16px,calc((100vw - 1080px)/2));top:120px;width:230px;transform:rotate(4deg)}
+@media (max-width:860px){.cover-ticket{display:none}}
+
+/* ---------- bon / paragon ---------- */
+.ticket{background:var(--paper);color:var(--ink);font-family:var(--f-mono);font-size:.78rem;line-height:1.5;padding:16px 16px 22px;position:relative;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.ticket::after{content:"";position:absolute;left:0;right:0;bottom:-8px;height:8px;background:linear-gradient(-45deg,transparent 6px,var(--paper) 0) 0 0/12px 8px repeat-x,linear-gradient(45deg,transparent 6px,var(--paper) 0) 0 0/12px 8px repeat-x}
+.ticket .c{text-align:center}
+.ticket hr{border:0;border-top:1px dashed var(--muted);margin:8px 0}
+.ticket .row{display:flex;justify-content:space-between;gap:8px}
+.ticket .big{font-weight:600;font-size:.95rem}
+
+/* ---------- problem ---------- */
+.pains{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.pain{border-top:2px solid var(--ink);padding-top:14px;display:grid;gap:8px;align-content:start}
+.pain .n{font-family:var(--f-display);font-size:2rem;font-weight:700;color:var(--chili)}
+.pain p{color:var(--muted)}
+.answer{margin-top:40px;background:var(--accent);color:var(--accent-ink);padding:24px 28px;border-radius:var(--r);display:grid;gap:6px}
+.answer strong{font-family:var(--f-display);font-size:1.25rem}
+
+/* ---------- mapa ekosystemu / demo ---------- */
+.flow-band{background:var(--surface);border-block:1px solid var(--line)}
+.flow{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;position:relative}
+.step{background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:14px 12px;display:grid;gap:6px;align-content:start;transition:background .3s,border-color .3s,transform .3s;min-width:0}
+.step .m{font-family:var(--f-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.step h3{font-size:.95rem}
+.step p{font-size:.82rem;color:var(--muted);line-height:1.45}
+.step.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);transform:translateY(-4px)}
+.step.on .m,.step.on p{color:var(--accent-ink)}
+.step.done{border-color:var(--basil)}
+.step.done .m{color:var(--basil)}
+.demo{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:28px;margin-top:28px;align-items:start}
+.demo-ctrl{display:grid;gap:14px}
+.log{font-family:var(--f-mono);font-size:.8rem;background:var(--band);color:var(--band-fg);border-radius:var(--r);padding:14px 16px;min-height:178px;display:grid;align-content:start;gap:3px}
+.log .t{color:var(--accent)}
+.btn{font-family:var(--f-body);font-weight:700;font-size:.95rem;border:0;border-radius:999px;padding:12px 20px;cursor:pointer;background:var(--ink);color:var(--bg);justify-self:start}
+.btn:hover{background:var(--basil);color:#fff}
+.btn:disabled{opacity:.5;cursor:default}
+.printer{height:330px;overflow:hidden;display:flex;align-items:flex-start;justify-content:center;padding-top:6px}
+.printer .ticket{width:250px;transform:translateY(-100%);transition:transform 1.4s steps(14)}
+.printer.out .ticket{transform:translateY(0)}
+
+/* ---------- moduły ---------- */
+.mods{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.mod{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:grid;gap:10px;align-content:start;min-width:0}
+.mod .hd{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.mod .name{font-family:var(--f-display);font-weight:700;font-size:1.3rem}
+.mod .what{font-family:var(--f-mono);font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;text-align:right}
+.mod .pitch{font-weight:600}
+.mod ul{margin:0;padding:0;list-style:none;display:grid;gap:5px;font-size:.88rem;color:var(--muted)}
+.mod li{padding-left:16px;position:relative}
+.mod li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;background:var(--accent);border-radius:1px}
+.mod.core{border-color:var(--ink);border-width:2px}
+
+/* ---------- portfolio ---------- */
+.cases{display:grid;gap:24px}
+.case{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.case .l{padding:28px;display:grid;gap:14px;align-content:start}
+.case .r{background:var(--band);color:var(--band-fg);padding:28px;display:grid;gap:12px;align-content:start}
+.case .r .eyebrow{color:color-mix(in srgb,var(--band-fg) 65%,transparent)}
+.case h3{font-size:1.5rem}
+.facts{display:grid;gap:8px;font-size:.9rem}
+.facts div{display:grid;grid-template-columns:110px minmax(0,1fr);gap:10px;border-bottom:1px dashed color-mix(in srgb,var(--band-fg) 22%,transparent);padding-bottom:8px}
+.facts dt,.facts span:first-child{font-family:var(--f-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--accent)}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-family:var(--f-mono);font-size:.72rem;border:1px solid var(--line);padding:3px 8px;border-radius:999px;color:var(--muted)}
+.mini{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:8px}
+.mini div{border-top:2px solid var(--ink);padding-top:10px;display:grid;gap:4px}
+.mini b{font-family:var(--f-display);font-size:.95rem}
+.mini span{font-size:.82rem;color:var(--muted)}
+
+/* ---------- kalkulator ---------- */
+.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start}
+.field{display:grid;gap:6px;margin-bottom:18px}
+.field label{font-weight:600;display:flex;justify-content:space-between;gap:10px}
+.field output{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--basil)}
+.mods-pick{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.mods-pick label{display:flex;gap:8px;align-items:center;font-size:.9rem;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:8px 10px;cursor:pointer}
+.result{display:grid;gap:12px}
+.result .ticket{font-size:.85rem}
+.save{font-family:var(--f-display);font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;color:var(--basil)}
+.note{font-size:.8rem;color:var(--muted)}
+
+/* ---------- pakiety ---------- */
+.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;align-items:start}
+.plan .ticket{font-size:.82rem;padding:20px 18px 26px}
+.plan .pname{font-family:var(--f-display);font-size:1.15rem;font-weight:700;text-align:center;margin:6px 0 2px}
+.plan .price{font-family:var(--f-display);font-size:2rem;font-weight:800;text-align:center}
+.plan .per{text-align:center;color:var(--muted)}
+.plan.hot .ticket{outline:3px solid var(--accent);outline-offset:6px}
+.plan .badge{display:block;text-align:center;background:var(--accent);color:var(--accent-ink);font-weight:600;padding:2px 0;margin:-4px -4px 6px}
+.extras{margin-top:36px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.extras div{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:grid;gap:4px}
+.extras b{font-family:var(--f-mono);font-size:.95rem}
+.extras span{font-size:.85rem;color:var(--muted)}
+
+/* ---------- wdrożenie ---------- */
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;counter-reset:s}
+.steps li{list-style:none;display:grid;gap:8px;border-left:2px solid var(--accent);padding-left:14px}
+.steps li::before{counter-increment:s;content:"Krok " counter(s);font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.steps p{font-size:.9rem;color:var(--muted)}
+.steps ol{padding:0;margin:0}
+
+/* ---------- kontakt ---------- */
+.contact{background:var(--band);color:var(--band-fg)}
+.contact h2{font-size:clamp(2rem,5vw,3.4rem)}
+.contact .grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:32px;align-items:end}
+.ct{display:grid;gap:10px;font-family:var(--f-mono)}
+.ct div{display:flex;flex-wrap:wrap;gap:10px;align-items:center;border-bottom:1px dashed color-mix(in srgb,var(--band-fg) 25%,transparent);padding-bottom:8px}
+.ct small{color:var(--accent);text-transform:uppercase;letter-spacing:.1em;font-size:.7rem;min-width:70px}
+.copy{font-family:var(--f-mono);font-size:.7rem;background:transparent;color:var(--band-fg);border:1px solid color-mix(in srgb,var(--band-fg) 35%,transparent);border-radius:999px;padding:3px 9px;cursor:pointer;margin-left:auto}
+.foot{font-family:var(--f-mono);font-size:.72rem;opacity:.6;margin-top:48px}
+
+.print-only{display:none}
+
+@media (max-width:900px){
+  .flow{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .mods,.plans,.extras{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .mini{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:640px){
+  section{padding-block:52px}
+  .pains,.mods,.plans,.extras,.calc,.demo,.case,.contact .grid,.steps{grid-template-columns:minmax(0,1fr)}
+  .flow{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .mods-pick{grid-template-columns:minmax(0,1fr)}
+  .facts div{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ---------- druk / PDF ---------- */
+@page{size:A4;margin:0}
+@media print{
+  :root{--bg:#F3F4EF;--surface:#FFFFFF;--paper:#FBFAF5;--ink:#15171C;--muted:#5D6158;--line:#D9DBD2;--accent:#E8B21E;--basil:#2E6A4C;--chili:#C2412D;--band:#15171C;--band-fg:#F3F4EF;color-scheme:light}
+  :root{padding:0!important}
+  body{font-size:15px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .wrap{max-width:none;padding-left:20mm;padding-right:20mm}
+  section{padding-block:12mm}
+  .case,.plan,.pain,.answer,.flow,.calc,.steps li,.extras div{break-inside:avoid}
+  .page{break-before:page}
+  .cover{min-height:411mm;padding-block:18mm;display:flex;flex-direction:column}
+  .cover .wrap{flex:1;display:flex;flex-direction:column;width:100%}
+  .cover .bottom{margin-top:auto}
+  .cover-ticket{display:block!important;position:static;align-self:flex-end;margin:0 30mm 40mm 0;width:300px;font-size:.9rem}
+  .cover .wrap{flex:0 0 auto}
+  .screen-only{display:none!important}
+  .print-only{display:block}
+  .flow{grid-template-columns:repeat(6,minmax(0,1fr))}
+  .mods{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  .mod{padding:12px;gap:6px;break-inside:avoid}
+  .mod ul{font-size:.85rem;gap:3px}
+  .case{break-inside:avoid;grid-template-columns:1.1fr 1fr}
+  .plans{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .extras{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .steps{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .pains{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .mini{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .contact .grid{grid-template-columns:1.3fr 1fr}
+  .contact{min-height:120mm}
+  .ticket{box-shadow:none;border:1px solid var(--line)}
+  .step{transform:none!important}
+  .sec-head{margin-bottom:8mm}
+}
+</style>
+
+<!-- ================= OKŁADKA ================= -->
+<header class="cover">
+  <div class="wrap">
+    <div class="top"><span>LECH COMPANY · AUGUSTÓW</span><span>OFERTA I PORTFOLIO · LISTOPAD 2026</span></div>
+    <h1>Gastro<span>Lech</span></h1>
+    <p class="tagline">Jeden system. Cała restauracja. Zero prowizji od zamówień.</p>
+    <p class="sub">Strona lokalu, zamówienia online, kasa POS z drukiem bonów, rezerwacje, płatności, aplikacja dla kierowców i aplikacja dla zespołu. Wszystko zbudowane i przetestowane na naszych własnych lokalach w Augustowie, a teraz dostępne dla Twojego.</p>
+    <div class="chips" aria-label="Moduły ekosystemu">
+      <span class="chip"><b>Strona</b> www</span>
+      <span class="chip"><b>Burczy</b> zamówienia</span>
+      <span class="chip"><b>Bonik</b> POS</span>
+      <span class="chip"><b>Stolik</b> rezerwacje</span>
+      <span class="chip"><b>Płatności</b> online</span>
+      <span class="chip"><b>Dowozik</b> kierowcy</span>
+      <span class="chip"><b>Grafik</b> zespół</span>
+      <span class="chip"><b>LechCoin</b> lojalność</span>
+      <span class="chip"><b>Szef</b> panel</span>
+    </div>
+    <div class="bottom"></div>
+  </div>
+  <div class="cover-ticket ticket" aria-hidden="true">
+    <div class="c big">BON KUCHNIA #0412</div>
+    <div class="c">Burczy · dostawa · 18:42</div>
+    <hr>
+    <div class="row"><span>1x Smash Burger</span><span>x2</span></div>
+    <div class="row"><span>1x Pizza 1/2 szynka</span><span>32cm</span></div>
+    <div class="row"><span>1x Frytki belgijskie</span><span></span></div>
+    <hr>
+    <div class="row"><span>Zapłacono</span><span>BLIK</span></div>
+    <div class="row"><span>Kierowca</span><span>Dowozik #3</span></div>
+    <div class="c" style="margin-top:6px">*** NA 19:10 ***</div>
+  </div>
+</header>
+
+<!-- ================= PROBLEM ================= -->
+<section class="page">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Dlaczego GastroLech</span>
+      <h2>Restauracja płaci dziś za pięć systemów, które ze sobą nie rozmawiają</h2>
+      <p class="lead">Znamy to z własnej kuchni. Bistro u Lecha i Kręgielnia Garaż przez lata działały na osobnych narzędziach: zamówienia u jednego dostawcy, kasa u drugiego, rezerwacje na kartce, grafik w Excelu. Dlatego zbudowaliśmy własny system.</p>
+    </div>
+    <div class="pains">
+      <div class="pain"><span class="n">% od każdego</span><h3>Prowizje portali</h3><p>Platformy zamówień biorą procent od każdego koszyka. Przy kilkuset zamówieniach miesięcznie to kwota, za którą da się zatrudnić dodatkową osobę.</p></div>
+      <div class="pain"><span class="n">5 paneli</span><h3>Rozproszone narzędzia</h3><p>Zamówienie z internetu trzeba przepisać do kasy, kasa nie wie o rezerwacji, a kierowca dzwoni po adres. Każde przepisanie to ryzyko pomyłki.</p></div>
+      <div class="pain"><span class="n">0 danych</span><h3>Klient należy do portalu</h3><p>Kto zamawia, jak często i za ile, wie portal, nie Ty. Nie masz do kogo wysłać promocji ani jak nagrodzić stałego gościa.</p></div>
+    </div>
+    <div class="answer">
+      <strong>GastroLech łączy to w jeden obieg.</strong>
+      <p>Zamówienie złożone na Twojej stronie trafia od razu do kasy, drukuje się jako bon na kuchni, przypisuje się do kierowcy i kończy paragonem fiskalnym. Bez przepisywania i bez prowizji od koszyka.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MAPA / DEMO ================= -->
+<section class="flow-band">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Jak to działa</span>
+      <h2>Droga jednego zamówienia przez system</h2>
+      <p class="lead screen-only">Kliknij „Złóż zamówienie testowe” i zobacz, jak zamówienie przechodzi przez kolejne moduły, aż do wydruku bonu na kuchni.</p>
+      <p class="lead print-only">Każdy krok dzieje się automatycznie. Obsługa nie przepisuje niczego ręcznie: system sam przekazuje zamówienie dalej.</p>
+    </div>
+    <div class="flow" id="flow">
+      <div class="step" data-i="0"><span class="m">Strona + Burczy</span><h3>Gość zamawia</h3><p>Menu na Twojej stronie, koszyk, dostawa lub odbiór.</p></div>
+      <div class="step" data-i="1"><span class="m">Płatności</span><h3>Płaci online</h3><p>BLIK, karta lub przelew. Status płatności widać w kasie.</p></div>
+      <div class="step" data-i="2"><span class="m">Bonik POS</span><h3>Kasa przyjmuje</h3><p>Zamówienie wpada do kolejki POS razem z salą i wynosami.</p></div>
+      <div class="step" data-i="3"><span class="m">Bonik · druk</span><h3>Bon na kuchnię</h3><p>Drukarka w kuchni i na barze drukuje właściwe pozycje.</p></div>
+      <div class="step" data-i="4"><span class="m">Dowozik</span><h3>Kierowca jedzie</h3><p>Adres, trasa i kwota do pobrania w telefonie kierowcy.</p></div>
+      <div class="step" data-i="5"><span class="m">Fiskalizacja + Szef</span><h3>Paragon i raport</h3><p>Paragon fiskalny, punkty LechCoin, wynik dnia w panelu.</p></div>
+    </div>
+    <div class="demo screen-only">
+      <div class="demo-ctrl">
+        <button class="btn" id="go" type="button">Złóż zamówienie testowe</button>
+        <div class="log" id="log" aria-live="polite"><span><span class="t">gotowe&gt;</span> czekam na zamówienie…</span></div>
+      </div>
+      <div class="printer" id="printer" aria-hidden="true">
+        <div class="ticket">
+          <div class="c big">BON KUCHNIA #0413</div>
+          <div class="c">Burczy · dostawa · <span id="tt">19:05</span></div>
+          <hr>
+          <div class="row"><span>2x Smash Burger</span><span>podw.</span></div>
+          <div class="row"><span>1x Pizza Pepperoni</span><span>32cm</span></div>
+          <div class="row"><span>1x Lemoniada</span><span>bar</span></div>
+          <hr>
+          <div class="row"><span>Płatność</span><span>BLIK ✓</span></div>
+          <div class="row"><span>Kierowca</span><span>Dowozik #2</span></div>
+          <div class="row"><span>LechCoin</span><span>+12</span></div>
+          <div class="c" style="margin-top:6px">*** DOSTAWA NA 19:40 ***</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MODUŁY ================= -->
+<section class="page">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Moduły ekosystemu</span>
+      <h2>Dziewięć modułów, jedna baza danych</h2>
+      <p class="lead">Moduły działają razem, ale można zacząć od kilku i dokładać kolejne, gdy lokal rośnie. Menu, ceny i stawki VAT ustawiasz raz, a widzą je wszystkie.</p>
+    </div>
+    <div class="mods">
+      <article class="mod"><div class="hd"><span class="name">Strona</span><span class="what">www lokalu</span></div>
+        <p class="pitch">Strona, która wygląda jak żywy produkt i sprzedaje.</p>
+        <ul><li>Projekt pod lokal, wideo w nagłówku</li><li>Menu z cenami i zdjęciami</li><li>SEO lokalne, Google, schema.org</li><li>Domena, hosting, utrzymanie w abonamencie</li><li>Analityka odwiedzin bez cookies</li></ul></article>
+      <article class="mod core"><div class="hd"><span class="name">Burczy</span><span class="what">zamówienia online</span></div>
+        <p class="pitch">Własny system zamówień, 0% prowizji od koszyka.</p>
+        <ul><li>Dostawa, odbiór, zamówienie na godzinę</li><li>Strefy i koszty dostawy</li><li>Dodatki, warianty, pizza pół na pół</li><li>Kody rabatowe i promocje</li><li>Zamówienie od razu w kasie i na kuchni</li></ul></article>
+      <article class="mod core"><div class="hd"><span class="name">Bonik</span><span class="what">POS + bony</span></div>
+        <p class="pitch">Kasa na salę, wynos i dowóz z drukiem bonów.</p>
+        <ul><li>Stoliki, rachunki, podział rachunku</li><li>Bony na kuchnię i bar, osobne drukarki</li><li>Paragony: kasa wirtualna lub drukarka fiskalna Novitus</li><li>NIP nabywcy na paragonie, raport dobowy</li><li>Brak podwójnych paragonów po awarii</li></ul></article>
+      <article class="mod"><div class="hd"><span class="name">Stolik</span><span class="what">rezerwacje</span></div>
+        <p class="pitch">Rezerwacje stolików, sal i torów online.</p>
+        <ul><li>Formularz na stronie, 24/7</li><li>Plan sali, godziny, liczba gości</li><li>Potwierdzenia i przypomnienia</li><li>Imprezy, urodziny, zadatki</li><li>Rezerwacja widoczna w kasie</li></ul></article>
+      <article class="mod"><div class="hd"><span class="name">Płatności</span><span class="what">online</span></div>
+        <p class="pitch">Gość płaci z góry, Ty masz pieniądze na koncie.</p>
+        <ul><li>BLIK, karty, Apple Pay, Google Pay, przelew</li><li>Przedpłaty i zadatki za rezerwacje</li><li>Bony podarunkowe</li><li>Zwroty z panelu</li><li>Rozliczenia spięte z kasą</li></ul></article>
+      <article class="mod"><div class="hd"><span class="name">Dowozik</span><span class="what">aplikacja kierowcy</span></div>
+        <p class="pitch">Kierowca ma wszystko w telefonie.</p>
+        <ul><li>Lista kursów i przydział z kasy</li><li>Nawigacja jednym dotknięciem</li><li>Kwota do pobrania i forma płatności</li><li>Statusy: odebrane, w drodze, dostarczone</li><li>Rozliczenie kierowcy na koniec zmiany</li></ul></article>
+      <article class="mod"><div class="hd"><span class="name">Grafik</span><span class="what">aplikacja zespołu</span></div>
+        <p class="pitch">Zmiany, czas pracy i komunikacja w jednym miejscu.</p>
+        <ul><li>Grafik zmian i zamiany między pracownikami</li><li>Rejestracja czasu pracy</li><li>Dane do listy płac</li><li>Zadania i checklisty otwarcia/zamknięcia</li><li>Ogłoszenia dla zespołu</li></ul></article>
+      <article class="mod"><div class="hd"><span class="name">LechCoin</span><span class="what">lojalność</span></div>
+        <p class="pitch">Waluta lokalu, która ściąga gości z powrotem.</p>
+        <ul><li>Punkty za każde zamówienie</li><li>Płatność LechCoinami w kasie (jako bon)</li><li>Bony i karty podarunkowe</li><li>Baza stałych gości z zgodami RODO</li><li>Promocje do własnych klientów</li></ul></article>
+      <article class="mod"><div class="hd"><span class="name">Szef</span><span class="what">panel właściciela</span></div>
+        <p class="pitch">Wynik lokalu w telefonie, na bieżąco.</p>
+        <ul><li>Sprzedaż dnia, tygodnia, miesiąca</li><li>Najlepiej sprzedające się pozycje</li><li>Menu, ceny, stawki VAT w jednym miejscu</li><li>Kilka lokali w jednym panelu</li><li>Stan drukarek i kasy na żywo</li></ul></article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PORTFOLIO ================= -->
+<section class="page">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Portfolio</span>
+      <h2>Działa na naszych lokalach, codziennie</h2>
+      <p class="lead">GastroLech nie powstał na prezentację. Każdy moduł przeszedł przez prawdziwy piątkowy wieczór w Augustowie.</p>
+    </div>
+    <div class="cases">
+      <article class="case">
+        <div class="l">
+          <span class="eyebrow">Restauracja · Augustów</span>
+          <h3>Bistro u Lecha</h3>
+          <p>Pizza, burgery, smash burgery i domowe obiady przy ul. Mostowej 34. Pierwszy lokal, na którym uruchomiliśmy cały ekosystem: od strony, przez zamówienia, po paragony z kasy wirtualnej.</p>
+          <div class="tags"><span class="tag">Strona</span><span class="tag">Burczy</span><span class="tag">Bonik</span><span class="tag">Stolik</span><span class="tag">Płatności</span><span class="tag">Dowozik</span><span class="tag">LechCoin</span></div>
+        </div>
+        <div class="r">
+          <span class="eyebrow">Co wdrożyliśmy</span>
+          <div class="facts">
+            <div><span>Strona</span><span>bistrolech.pl z wideo przewijanym razem ze stroną, 11 kategorii menu, galeria</span></div>
+            <div><span>Fiskalizacja</span><span>paragony przez kasę wirtualną (XKasa, REST API)</span></div>
+            <div><span>Kuchnia</span><span>agent druku bonów na kuchnię i bar</span></div>
+            <div><span>Marketing</span><span>SEO lokalne, dane strukturalne, analityka bez cookies</span></div>
+          </div>
+        </div>
+      </article>
+      <article class="case">
+        <div class="l">
+          <span class="eyebrow">Rozrywka + gastronomia · Augustów</span>
+          <h3>Kręgielnia Garaż</h3>
+          <p>Kręgle i kuchnia pod jednym dachem. Tu Bonik pracuje z klasyczną drukarką fiskalną Novitus Deon Online w sieci lokalnej. Od października 2026 paragony z kasy idą prosto na drukarkę.</p>
+          <div class="tags"><span class="tag">Bonik</span><span class="tag">Burczy</span><span class="tag">Stolik</span><span class="tag">Szef</span></div>
+        </div>
+        <div class="r">
+          <span class="eyebrow">Co wdrożyliśmy</span>
+          <div class="facts">
+            <div><span>Fiskalizacja</span><span>Novitus Deon Online, protokół XML po sieci</span></div>
+            <div><span>Paragony</span><span>NIP nabywcy, rabaty, płatność bonem LechCoin, raport dobowy</span></div>
+            <div><span>Kontrola</span><span>test drukarki przed zmianą: papier, zegar, stawki PTU, tryb fiskalny</span></div>
+            <div><span>Odporność</span><span>po awarii system sprawdza ostatni paragon i nie drukuje go drugi raz</span></div>
+          </div>
+        </div>
+      </article>
+    </div>
+    <p class="eyebrow" style="margin-top:32px">Inne realizacje zespołu WebLech</p>
+    <div class="mini">
+      <div><b>VolleoPro</b><span>platforma dla klubów siatkarskich: profile zawodników, wellness, panel trenera</span></div>
+      <div><b>Fikołek</b><span>strona i materiały wideo dla sali zabaw</span></div>
+      <div><b>Kreska</b><span>strona www w abonamencie</span></div>
+      <div><b>Lech Company</b><span>strona grupy, lechcompany.pl</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= KALKULATOR ================= -->
+<section class="flow-band page">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Policz sam</span>
+      <h2>Ile zostaje w kasie bez prowizji od zamówień</h2>
+      <p class="lead screen-only">Przesuń suwaki według swojego lokalu. Wyliczenie porównuje prowizję portalu z abonamentem wybranego pakietu.</p>
+      <p class="lead print-only">Przykład dla lokalu z 600 zamówieniami online miesięcznie, średnim koszykiem 75 zł i prowizją portalu 20%. Na stronie oferty online możesz to policzyć dla swoich liczb.</p>
+    </div>
+    <div class="calc">
+      <form id="calc" class="screen-only" onsubmit="return false">
+        <div class="field"><label for="orders">Zamówienia online miesięcznie <output id="o-orders"></output></label><input id="orders" type="range" min="50" max="3000" step="50" value="600"></div>
+        <div class="field"><label for="basket">Średni koszyk <output id="o-basket"></output></label><input id="basket" type="range" min="30" max="200" step="5" value="75"></div>
+        <div class="field"><label for="fee">Prowizja portalu <output id="o-fee"></output></label><input id="fee" type="range" min="5" max="35" step="1" value="20"></div>
+        <div class="field"><label for="plan">Pakiet GastroLech</label>
+          <select id="plan" style="font:inherit;padding:8px;border-radius:var(--r);border:1px solid var(--line);background:var(--surface);color:var(--ink)">
+            <option value="299">Start · 299 zł netto/mies.</option>
+            <option value="549" selected>Restauracja · 549 zł netto/mies.</option>
+            <option value="849">Pełny ekosystem · 849 zł netto/mies.</option>
+          </select></div>
+      </form>
+      <div class="result">
+        <div class="ticket" id="receipt">
+          <div class="c big">WYLICZENIE / MIESIĄC</div>
+          <hr>
+          <div class="row"><span>Obrót online</span><span id="r-turn">45 000 zł</span></div>
+          <div class="row"><span>Prowizja portalu</span><span id="r-fee">9 000 zł</span></div>
+          <div class="row"><span>Abonament GastroLech</span><span id="r-sub">549 zł</span></div>
+          <hr>
+          <div class="row big"><span>ZOSTAJE U CIEBIE</span><span id="r-save">8 451 zł</span></div>
+          <div class="row"><span>Rocznie</span><span id="r-year">101 412 zł</span></div>
+        </div>
+        <p class="note">Wyliczenie poglądowe. Nie uwzględnia opłat operatora płatności, które ponosisz w obu modelach.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PAKIETY ================= -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Pakiety</span>
+      <h2>Abonament zamiast dużej faktury na start</h2>
+      <p class="lead">Płacisz miesięcznie za lokal. W cenie: wdrożenie, aktualizacje, hosting, kopie zapasowe i pomoc, gdy coś nie działa w piątek o 19:00.</p>
+    </div>
+    <div class="plans">
+      <div class="plan"><div class="ticket">
+        <div class="c">GASTROLECH</div>
+        <div class="pname">Start</div>
+        <div class="price">299 zł</div><div class="per">netto / mies. / lokal</div>
+        <hr>
+        <div>+ Strona www lokalu</div><div>+ Burczy: zamówienia online</div><div>+ Płatności online</div><div>+ Domena i hosting</div><div>+ Analityka odwiedzin</div>
+        <hr><div class="c">0% prowizji od zamówień</div>
+      </div></div>
+      <div class="plan hot"><div class="ticket">
+        <span class="badge">NAJCZĘŚCIEJ WYBIERANY</span>
+        <div class="c">GASTROLECH</div>
+        <div class="pname">Restauracja</div>
+        <div class="price">549 zł</div><div class="per">netto / mies. / lokal</div>
+        <hr>
+        <div>+ Wszystko ze Start</div><div>+ Bonik: POS i bony kuchenne</div><div>+ Fiskalizacja paragonów</div><div>+ Stolik: rezerwacje online</div><div>+ LechCoin: program lojalnościowy</div><div>+ Szef: panel właściciela</div>
+        <hr><div class="c">0% prowizji od zamówień</div>
+      </div></div>
+      <div class="plan"><div class="ticket">
+        <div class="c">GASTROLECH</div>
+        <div class="pname">Pełny ekosystem</div>
+        <div class="price">849 zł</div><div class="per">netto / mies. / lokal</div>
+        <hr>
+        <div>+ Wszystko z Restauracja</div><div>+ Dowozik: aplikacja kierowcy</div><div>+ Grafik: aplikacja zespołu</div><div>+ Kilka lokali w jednym panelu</div><div>+ Priorytetowe wsparcie</div>
+        <hr><div class="c">0% prowizji od zamówień</div>
+      </div></div>
+    </div>
+    <div class="extras">
+      <div><b>Wdrożenie: 0 zł</b><span>przy umowie na 12 miesięcy. Konfiguracja menu, drukarek i kasy na miejscu.</span></div>
+      <div><b>Sprzęt: wycena</b><span>tablet POS, drukarki bonów, drukarka fiskalna. Możemy użyć tego, co już masz.</span></div>
+      <div><b>Moduł osobno: od 99 zł</b><span>każdy moduł można dokupić pojedynczo do dowolnego pakietu.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WDROŻENIE ================= -->
+<section class="page">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Wdrożenie</span>
+      <h2>Od rozmowy do pierwszego zamówienia w około dwa tygodnie</h2>
+    </div>
+    <ol class="steps">
+      <li><h3>Rozmowa w lokalu</h3><p>Sprawdzamy, jak pracuje kuchnia, jaki masz sprzęt i co chcesz zmienić.</p></li>
+      <li><h3>Konfiguracja</h3><p>Wprowadzamy menu, ceny, stawki VAT, strefy dostaw i drukarki.</p></li>
+      <li><h3>Szkolenie zespołu</h3><p>Kelnerzy, kuchnia i kierowcy uczą się na prawdziwych zamówieniach testowych.</p></li>
+      <li><h3>Start i opieka</h3><p>Jesteśmy na pierwszej zmianie, a potem pod telefonem na co dzień.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ================= KONTAKT ================= -->
+<section class="contact">
+  <div class="wrap">
+    <div class="grid">
+      <div style="display:grid;gap:16px">
+        <span class="eyebrow" style="color:var(--accent)">Porozmawiajmy</span>
+        <h2>Pokażemy system na żywo w Bistro u Lecha</h2>
+        <p style="opacity:.75;max-width:52ch">Przyjedź do Augustowa albo umów prezentację online. Zobaczysz zamówienie od kliknięcia na stronie do bonu na kuchni.</p>
+      </div>
+      <div class="ct">
+        <div><small>Telefon</small><span id="c-tel">+48 660 844 959</span><button class="copy screen-only" type="button" data-copy="c-tel">kopiuj</button></div>
+        <div><small>E-mail</small><span id="c-mail">biuro@weblech.pl</span><button class="copy screen-only" type="button" data-copy="c-mail">kopiuj</button></div>
+        <div><small>WWW</small><span>www.weblech.pl</span></div>
+        <div><small>Firma</small><span>Lech Company Sp. z o.o., Augustów</span></div>
+      </div>
+    </div>
+    <p class="foot">GastroLech · oferta ważna do 31.01.2027 · ceny netto, do cen należy doliczyć 23% VAT</p>
+  </div>
+</section>
+
+<script>
+(function(){
+  // ---- demo przepływu zamówienia ----
+  var steps=[].slice.call(document.querySelectorAll('#flow .step'));
+  var log=document.getElementById('log'),go=document.getElementById('go'),pr=document.getElementById('printer');
+  var lines=[
+    'Burczy: nowe zamówienie #0413, dostawa, 3 pozycje',
+    'Płatności: BLIK 128,00 zł, opłacone',
+    'Bonik: zamówienie w kolejce POS, stolik: DOSTAWA',
+    'Bonik: drukuję bon KUCHNIA i bon BAR',
+    'Dowozik: przydzielono kierowcę #2, ETA 19:40',
+    'Fiskalizacja: paragon nr 2187 OK · LechCoin +12 · Szef: obrót dnia zaktualizowany'
+  ];
+  function stamp(){var d=new Date();return ('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2)+':'+('0'+d.getSeconds()).slice(-2)}
+  function add(t){var s=document.createElement('span');s.innerHTML='<span class="t">'+stamp()+'&gt;</span> ';s.appendChild(document.createTextNode(t));log.appendChild(s)}
+  if(go){go.addEventListener('click',function(){
+    go.disabled=true;log.innerHTML='';pr.classList.remove('out');
+    steps.forEach(function(s){s.classList.remove('on','done')});
+    var tt=document.getElementById('tt');if(tt){var d=new Date();tt.textContent=('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2)}
+    var i=0;
+    (function tick(){
+      if(i>0)steps[i-1].classList.replace('on','done');
+      if(i===steps.length){add('Gotowe. Zamówienie przeszło przez 6 modułów bez przepisywania.');go.disabled=false;go.textContent='Złóż kolejne zamówienie';return}
+      steps[i].classList.add('on');add(lines[i]);
+      if(i===3)pr.classList.add('out');
+      i++;setTimeout(tick,1100);
+    })();
+  });}
+
+  // ---- kalkulator ----
+  var $=function(id){return document.getElementById(id)};
+  var fmt=function(n){return Math.round(n).toLocaleString('pl-PL')+' zł'};
+  function calc(){
+    var o=+$('orders').value,b=+$('basket').value,f=+$('fee').value,p=+$('plan').value;
+    var turn=o*b,fee=turn*f/100,save=fee-p;
+    $('o-orders').textContent=o;$('o-basket').textContent=b+' zł';$('o-fee').textContent=f+'%';
+    $('r-turn').textContent=fmt(turn);$('r-fee').textContent=fmt(fee);$('r-sub').textContent=fmt(p);
+    $('r-save').textContent=fmt(save);$('r-year').textContent=fmt(save*12);
+  }
+  ['orders','basket','fee','plan'].forEach(function(id){var el=$(id);if(el)el.addEventListener('input',calc)});
+  if($('orders'))calc();
+
+  // ---- kopiowanie kontaktu ----
+  [].forEach.call(document.querySelectorAll('[data-copy]'),function(b){
+    b.addEventListener('click',function(){
+      var el=$(b.getAttribute('data-copy')),txt=el.textContent;
+      function sel(){var r=document.createRange();r.selectNodeContents(el);var s=getSelection();s.removeAllRanges();s.addRange(r)}
+      try{navigator.clipboard.writeText(txt).then(function(){b.textContent='skopiowano'},sel)}catch(e){sel()}
+    });
+  });
+})();
+</script>
